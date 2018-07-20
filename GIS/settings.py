@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'GIS1.urls'
+ROOT_URLCONF = 'GIS.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'GIS1.wsgi.application'
+WSGI_APPLICATION = 'GIS.wsgi.application'
 
 
 # Database
