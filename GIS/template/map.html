@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.25/esri/css/esri.css">
+    <script src="https://js.arcgis.com/3.25/dijit/themes/nihilo/nihilo.css"></script>
+    <script>
+        var map;
+
+        require(["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "dojo/domReady!"], function(Map, ArcGISTiledMapServiceLayer) {
+
+            var initialExtent = new esri.geometry.Extent({
+                "xmin": 5190124.0769009115,
+                "ymin": 3335306.073392077,
+                "xmax": 5437155.058767752,
+                "ymax": 3495933.660671074,
+                "spatialReference": {
+                    "wkid": 102100
+                }
+            });
+            var paciMap = new Map("map", {
+                extent: initialExtent
+            });
+
+            var BaseMap = new esri.layers.ArcGISTiledMapServiceLayer("https://kuwaitportal.paci.gov.kw/arcgisportal/rest/services/Hosted/ArabicMap/MapServer/")
+            paciMap.addLayer(BaseMap);
+        });
+
+        require(["esri/tasks/query", "esri/tasks/QueryTask", "esri/config", "dojo/dom", "dojo/on", "dojo/dom-class", "dojo/parser", "dojo/domReady!"], function(Query, QueryTask, esriConfig, dom, on, domClass, parser) {
+            parser.parse();
+            esri.config.defaults.io.proxyUrl = "proxy.ashx";
+            esri.config.defaults.io.alwaysUseProxy = true;
+            var queryTask = new QueryTask("https://kuwaitportal.paci.gov.kw/arcgisportal/rest/services/AddressSearch/MapServer/3");
+            var query = new Query();
+            query.returnGeometry = true;
+            query.outFields = ["*"];
+            query.where = "1=1";
+            queryTask.execute(query, function(results) {
+                //Results goes here, you can see it in browser console by clicking  F12 or download the sample to get the full html 
+                console.log(results);
+            });
+        });
+
+        require(["esri/tasks/query", "esri/tasks/QueryTask", "esri/config", "dojo/dom", "dojo/on", "dojo/dom-class", "dojo/parser", "dojo/domReady!"], function(Query, QueryTask, esriConfig, dom, on, domClass, parser) {
+            parser.parse();
+            esri.config.defaults.io.proxyUrl = "proxy.ashx";
+            esri.config.defaults.io.alwaysUseProxy = true;
+            var queryTask = new QueryTask("https://kuwaitportal.paci.gov.kw/arcgisportal/rest/services/AddressSearch/MapServer/3");
+            var query = new Query();
+            query.returnGeometry = true;
+            query.outFields = ["*"];
+            query.where = "Gov_no =1";
+            queryTask.execute(query, function(results) {
+                var lyrGovernorate = new GraphicsLayer();
+                var graphic;
+                for (var i = 0; i < results.features.length; i++) {
+                    graphic = results.features[i];
+                    lyrGovernorate.add(graphic);
+                }
+                graphic.setSymbol(new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color([153, 67, 92, 0.7])));
+                map.addLayer(lyrGovernorate);
+                map.setExtent(graphic.geometry.getExtent().expand(2));
+            });
+        });
+
+        // urlUtils.addProxyRule({
+        //     urlPrefix: "route.arcgis.com",
+        //     proxyUrl: "<url_to_proxy>"
+        // });
+    </script>
+</head>
+
+<body class="claro">
+    <h1>{{header}}</h1>
+    <div id="map"></div>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 """
-WSGI config for GIS1 project.
+WSGI config for GIS project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
