@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.25/esri/css/esri.css">
+    <script src="https://js.arcgis.com/3.25/dijit/themes/nihilo/nihilo.css"></script>
+    <script>
+        var map;
+
+        require(["esri/map", "dojo/domReady!"], function(Map) {
+            map = new Map("map", {
+                basemap: "topo", //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+                center: [-122.45, 37.75], // longitude, latitude
+                zoom: 13
+            });
+        });
+    </script>
+</head>
+
+<body class="claro">
+    <div id="map"></div>
+</body>
+
+</html>
